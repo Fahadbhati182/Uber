@@ -14,6 +14,12 @@ const registerUser = asyncHandler(async (req, res, next) => {
   }
 
   const { fullName, password, email } = req.body
+  
+  const isUserAlreadyExit = await User.findOne({ email })
+  if (isUserAlreadyExit) {
+    throw new ApiError(400, "User Already Exit")
+  }
+
 
   const hashedPassword = await User.hashPassword(password)
 
@@ -28,7 +34,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
   const token = await user.generateAuthTokens()
 
   return res.status(200).json(
-    new ApiResponse(200, "User Registered Successfully", { user, token })
+    new ApiResponse(200, "User Registered Successfully", { token, user })
   )
 })
 
@@ -77,7 +83,7 @@ const logoutUser = asyncHandler(async (req, res, next) => {
   res.clearCookie('token')
   const token = req.cookies?.token || req.headers.authorization.split(' ')[1]
 
-  await BlackListToken.create({  token })
+  await BlackListToken.create({ token })
 
   return res.status(200).json(
     new ApiResponse(200, "User LogOut ")

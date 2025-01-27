@@ -4,7 +4,7 @@ dotenv.config()
 
 import cors from 'cors'
 import express from 'express'
-import cookieParser  from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 import connectDB from './db/db.js'
 const app = express()
 
@@ -19,8 +19,13 @@ app.use(cookieParser())
 
 
 
-import userRouter from "./routes/user.routes.js" 
+//! Routes handling
 
-app.use('/users',userRouter)
+import userRouter from "./routes/user.routes.js"
+import captainRouter from "./routes/captain.routes.js"
+
+
+app.use('/users', userRouter)
+app.use('/captains', captainRouter)
 
 export { app }
