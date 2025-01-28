@@ -4,6 +4,7 @@ import { registerUser, loginUser, getUserProfile, logoutUser } from '../controll
 import { authUser } from '../middlewares/auth.middleware.js';
 
 
+
 const router = express.Router();
 
 router.post('/register', [

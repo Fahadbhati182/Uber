@@ -33,6 +33,7 @@ const authUser = asyncHandler(async (req, res, next) => {
   }
 })
 
+
 const authCaptain = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies?.token || req.headers.authorization?.split(' ')[1]
@@ -40,7 +41,7 @@ const authCaptain = asyncHandler(async (req, res, next) => {
     if (!token) {
       throw new ApiError(401, "Uuthorized Request")
     }
-    
+
     const isBlacklist = await BlackListToken.findOne({ token: token })
 
     if (isBlacklist) {
