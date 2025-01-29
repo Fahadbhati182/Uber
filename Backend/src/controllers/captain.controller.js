@@ -9,12 +9,18 @@ import { BlackListToken } from "../models/blacklistToken.model.js";
 
 const registerCaptain = asyncHandler(async (req, res, next) => {
 
+
   const error = validationResult(req)
   if (!error.isEmpty()) {
     return res.status(400).json({ errors: error.array() })
   }
 
-  const { fullName, password, email, vechile } = req.body
+
+
+  const { fullName, password, email, vehicle } = req.body
+  console.log(req.body)
+
+
 
   const isCaptainAlreadyExit = await Captain.findOne({ email })
   if (isCaptainAlreadyExit) {
@@ -23,15 +29,16 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
 
   const hashedPassword = await Captain.hashPassword(password)
 
+
   const captain = await createCaptain({
     firstName: fullName.firstName,
     lastName: fullName.lastName,
     password: hashedPassword,
     email,
-    color: vechile.color,
-    plate: vechile.plate,
-    capacity: vechile.capacity,
-    vechileType: vechile.vechileType
+    color: vehicle.color,
+    plate: vehicle.plate,
+    capacity: vehicle.capacity,
+    vehicleType: vehicle.vehicleType
   })
 
   if (!captain) {
@@ -40,9 +47,7 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
 
   const token = await captain.generateAuthToken()
 
-  return res.status(200).json(
-    new ApiResponse(200, "Captain created Successfully", { token, captain })
-  )
+  res.status(201).json({ token, captain });
 
 })
 

@@ -10,26 +10,26 @@ const createCaptain = async (
     color,
     plate,
     capacity,
-    vechileType
+    vehicleType
   }
 ) => {
 
-  if (!firstName || !lastName || !password || !email || !color || !plate || !capacity || !vechileType) {
+  if (!firstName || !lastName || !password || !email || !color || !plate || !capacity || !vehicleType) {
     throw new ApiError(401, "All fields are requried")
   }
 
   const captain = await Captain.create({
     fullName: {
       firstName,
-      lastName
+      lastName,
     },
     email,
     password,
-    vechile: {
+    vehicle: {
       color,
       plate,
       capacity,
-      vechileType
+      vehicleType
     }
   })
 
