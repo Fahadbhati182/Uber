@@ -51,6 +51,8 @@ const authCaptain = asyncHandler(async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN)
     const captain = await Captain.findById(decodedToken._id)
 
+    console.log("captain",captain)
+
     req.captain = captain
     return next()
   } catch (error) {
